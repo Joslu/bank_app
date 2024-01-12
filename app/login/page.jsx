@@ -1,12 +1,16 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import Link  from 'next/link'
-
+import { useState } from 'react';
 function Login() {
 
 const router = useRouter()
 
-const handleButtonClick = () => {
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+
+const handleButtonClick = (event) => {
+  event.preventDefault(); // Prevenir el envío del formulario
   router.push('/dashboard');
 };
 
@@ -47,7 +51,7 @@ const handleButtonClick = () => {
         <button
           type="submit"
           className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={handleButtonClick}
+          onClick= {handleButtonClick}
         >
           Sign In
         </button>
