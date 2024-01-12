@@ -1,4 +1,6 @@
+import fetchDataFromApi from "@/utils/api";
 import Link from "next/link";
+
 
 function Register() {
   return (

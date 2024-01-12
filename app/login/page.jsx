@@ -1,18 +1,29 @@
-"use client"
-import { useRouter } from 'next/navigation';
-import Link  from 'next/link'
-import { useState } from 'react';
+"use client";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useState } from "react";
+import makeApiRequest from "../utils/api";
+
 function Login() {
+  const router = useRouter();
 
-const router = useRouter()
+  const [user_email, setEmail] = useState("");
+  const [user_password, setPassword] = useState("");
 
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
+  
 
-const handleButtonClick = (event) => {
-  event.preventDefault(); // Prevenir el envío del formulario
-  router.push('/dashboard');
-};
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const responseData = await makeApiRequest('/login', 'POST', { user_email, user_password });
+      console.log(responseData);
+
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Error en la operación:', error);
+    }
+  };
+
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -32,6 +43,8 @@ const handleButtonClick = (event) => {
             id="email"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="E-mail"
+            value={user_email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -46,12 +59,14 @@ const handleButtonClick = (event) => {
             id="password"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Password"
+            value={user_password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <button
           type="submit"
           className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick= {handleButtonClick}
+          onClick={handleLogin}
         >
           Sign In
         </button>
